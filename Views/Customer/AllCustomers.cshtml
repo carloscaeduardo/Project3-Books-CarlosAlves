@@ -1,0 +1,60 @@
+﻿@model List<Project3_Books_CarlosAlves.Models.Customer>
+@{
+    ViewBag.Title = "AllCustomers";
+}
+
+<h2>AllCustomers</h2>
+
+<button class="btn btn-primary">
+    <a class="color-light text-decoration-none text-light" href="/Customer/UpsertCustomer/">Add New Customer</a>
+</button>
+
+<div class="row">
+    <div class="col-md-6">
+        <input id="txtSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-6">
+        <input onclick="Sortable.Search();" type="button" class="btn btn-info" value="Search" />
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0);">Customer Id</th>
+            <th onclick="Sortable.Sort(1);">Customer Name</th>
+            <th onclick="Sortable.Sort(1);">Customer Address</th>
+            <th onclick="Sortable.Sort(1);">City</th>
+            <th onclick="Sortable.Sort(1);">State</th>
+            <th onclick="Sortable.Sort(1);">Zip Code</th>
+            
+
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var customer in Model)
+        {
+        <tr>
+            <td>@customer.CustomerID</td>
+            <td>@customer.Name</td>
+            <td>@customer.Address</td>
+            <td>@customer.City</td>
+            <td>@customer.State</td>
+            <td>@customer.ZipCode</td>
+
+            <td>
+                <button class="btn btn-primary"><a class="text-decoration-none text-light" href="/Customer/UpsertCustomer/?id=@customer.CustomerID">Edit</a></button>
+                @*<button class="btn btn-danger"><a href="/States/Delete/@customer.CustomerID" class="text-decoration-none text-light">DELETE</a></button>*@
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = '/Customer/AllCustomers/';
+</script>

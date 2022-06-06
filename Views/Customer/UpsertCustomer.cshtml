@@ -1,0 +1,40 @@
+﻿@model  Project3_Books_CarlosAlves.Models.UpsertCustomerModel
+@{
+    ViewBag.Title = "UpsertCustomer";
+}
+
+<h2>Add or Edit Customer</h2>
+
+
+@using (Html.BeginForm("UpsertCustomer", "Customer", FormMethod.Post))
+{
+    @Html.HiddenFor(c => c.Customer.CustomerID)
+    //@Html.TextBoxFor(c => c.Customer.CustomerID, new { @class = "form-control", placeholder = "Customer Id" })
+    @Html.TextBoxFor(c => c.Customer.Name, new { @class = "form-control", placeholder = "Name" })
+    @Html.TextBoxFor(c => c.Customer.Address, new { @class = "form-control", placeholder = "Address" })
+    @Html.TextBoxFor(c => c.Customer.City, new { @class = "form-control", placeholder = "City" })
+    @Html.TextBoxFor(c => c.Customer.ZipCode, new { @class = "form-control", placeholder = "Zip Code" })
+    <select name="Customer.State" class="form-control">
+        @foreach (var state in Model.States)
+        {
+            <option value="@state.StateCode">@state.StateCode - @state.StateName </option>
+
+        }
+
+    </select>
+
+
+    <select name="Customer.State" class="form-control">
+        @foreach (var state in Model.States)
+        {
+            <option value="@state.StateCode">@state.StateCode - @state.StateName </option>
+
+        }
+
+    </select>
+
+    <input type="submit" value="Submit" />
+
+    @*<input type="button" class="btn btn-primary" value="Delete" onclick="apiHandler.DELETE(/AllCustomers/Delete/@Model.Id);" />*@
+
+}

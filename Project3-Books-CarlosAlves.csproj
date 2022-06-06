@@ -126,6 +126,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StatesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -167,6 +168,7 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UpsertCustomerModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +268,8 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\States\AllStates.cshtml" />
     <Content Include="Views\States\UpsertState.cshtml" />
+    <Content Include="Views\Customer\AllCustomers.cshtml" />
+    <Content Include="Views\Customer\UpsertCustomer.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
