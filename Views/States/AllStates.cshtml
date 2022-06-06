@@ -1,0 +1,49 @@
+﻿@model List<Project3_Books_CarlosAlves.Models.State>
+@{
+    ViewBag.Title = "AllStates";
+}
+
+<h2>All States</h2>
+
+<button class="btn btn-primary">
+    <a class="color-light text-decoration-none text-light" href="/States/UpsertState/">Add New State</a>
+</button>
+
+<div class="row">
+    <div class="col-md-6">
+        <input id="txtSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-6">
+        <input onclick="Sortable.Search();" type="button" class="btn btn-info" value="Search" />
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0);">State Code</th>
+            <th onclick="Sortable.Sort(1);">State Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var state in Model)
+        {
+            <tr>
+                <td>@state.StateCode</td>
+                <td>@state.StateName</td>
+    
+                <td>
+                    <button class="btn btn-primary"><a class="text-decoration-none text-light" href="/States/UpsertState/?id=@state.StateCode">Edit</a></button>
+                    <button class="btn btn-danger"><a href="/States/Delete/@state.StateCode" class="text-decoration-none text-light">DELETE</a></button>
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = '/States/AllStates/';
+</script>

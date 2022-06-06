@@ -1,0 +1,20 @@
+﻿@model Project3_Books_CarlosAlves.Models.State
+@{
+    ViewBag.Title = "UpsertState";
+}
+
+<h2>Add OR Update States</h2>
+
+@using (Html.BeginForm("UpsertState", "States", FormMethod.Post))
+{
+    @*@Html.HiddenFor(s => s.StateCode)*@
+    @Html.TextBoxFor(s => s.StateCode, new { @class = "form-control", placeholder = "State Code" })
+
+    @Html.TextBoxFor(s => s.StateName, new { @class = "form-control", placeholder = "State Name" })
+
+
+    <input type="submit" value="Submit" />
+
+    @*<input type="button" class="btn btn-primary" value="Delete" onclick="apiHandler.DELETE(/AllCustomers/Delete/@Model.Id);" />*@
+
+}

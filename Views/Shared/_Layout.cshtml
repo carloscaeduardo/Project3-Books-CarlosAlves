@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/Scripts/main.js");
+</head>
+<body class="bg bg-dark">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary my-0">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/States/AllStates/">States</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/AllDepartments/AllDepartments/">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/AllEmployees/AllEmployees/">Employees</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/AllProducts/Allproducts">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/AllSales/AllSales">Sales</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/AllSalesStaff/AllSalesStaff">SalesStaff</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container body-content bg-light border border-3 rounded mt-5">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
