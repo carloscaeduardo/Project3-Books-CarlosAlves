@@ -24,15 +24,6 @@
     </select>
 
 
-    <select name="Customer.State" class="form-control">
-        @foreach (var state in Model.States)
-        {
-            <option value="@state.StateCode">@state.StateCode - @state.StateName </option>
-
-        }
-
-    </select>
-
     <input type="submit" value="Submit" />
 
     @*<input type="button" class="btn btn-primary" value="Delete" onclick="apiHandler.DELETE(/AllCustomers/Delete/@Model.Id);" />*@
