@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace Project3_Books_CarlosAlves.Controllers
 {
-    public class CustomerController : Controller
+    public class InvoicesController : Controller
     {
         // GET: Customer
         /// <summary>
@@ -17,10 +17,10 @@ namespace Project3_Books_CarlosAlves.Controllers
         /// <param name="sortBy"> Which column of the Customer table to sort by the resulting table</param>
         /// <param name="isDesc"> parameter that shows if the sort is in the Ascending or Descending order</param>
         /// <returns></returns>
-        public ActionResult AllCustomers(string id, int sortBy = 0, bool isDesc = false)
+        public ActionResult AllInvoices(string id, int sortBy = 0, bool isDesc = false)
         {
             var context = new BooksEntities();
-            List<Customer> customer = context.Customers.ToList();
+            List<Invoice> invoice = context.Invoices.ToList();
 
 
             switch (sortBy)
@@ -29,11 +29,11 @@ namespace Project3_Books_CarlosAlves.Controllers
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.Name).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.CustomerID).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.Name).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.CustomerID).ToList();
                         }
 
 
@@ -43,11 +43,11 @@ namespace Project3_Books_CarlosAlves.Controllers
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.Address).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.InvoiceDate).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.Address).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.InvoiceDate).ToList();
                         }
 
                         break;
@@ -56,11 +56,11 @@ namespace Project3_Books_CarlosAlves.Controllers
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.City).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.ProductTotal).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.City).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.ProductTotal).ToList();
                         }
 
                         break;
@@ -69,11 +69,11 @@ namespace Project3_Books_CarlosAlves.Controllers
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.State).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.SalesTax).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.State).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.SalesTax).ToList();
                         }
 
                         break;
@@ -82,11 +82,11 @@ namespace Project3_Books_CarlosAlves.Controllers
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.ZipCode).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.Shipping).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.ZipCode).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.Shipping).ToList();
                         }
 
                         break;
@@ -95,44 +95,30 @@ namespace Project3_Books_CarlosAlves.Controllers
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.deleted).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.InvoiceTotal).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.deleted).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.InvoiceTotal).ToList();
                         }
 
                         break;
                     }
-                case 7:
-                    {
-                        if (isDesc)
-                        {
-                            customer = context.Customers.OrderByDescending(c => c.State).ToList();
-                        }
-                        else
-                        {
-                            customer = context.Customers.OrderBy(c => c.State).ToList();
-                        }
-
-                        break;
-                    }
-
                 case 0:
                 default:
                     {
                         if (isDesc)
                         {
-                            customer = context.Customers.OrderByDescending(c => c.CustomerID).ToList();
+                            invoice = context.Invoices.OrderByDescending(c => c.InvoiceID).ToList();
                         }
                         else
                         {
-                            customer = context.Customers.OrderBy(c => c.CustomerID).ToList();
+                            invoice = context.Invoices.OrderBy(c => c.InvoiceID).ToList();
                         }
-
 
                         break;
                     }
+
 
             }
 
@@ -145,14 +131,14 @@ namespace Project3_Books_CarlosAlves.Controllers
 
                 if (int.TryParse(id, out idLookup))
                 {
-                    customer = customer.Where(c =>
-                                                    c.CustomerID == idLookup
+                    invoice = invoice.Where(c =>
+                                                    c.InvoiceID == idLookup
                                                 ).ToList();
                 }
-                
+
                 else
                 {
-                    customer = customer.Where(c =>
+                    invoice = invoice.Where(c =>
                                                 c.Name.ToLower().Contains(id) ||
                                                 c.State.ToLower().Contains(id) ||
                                                 c.City.ToLower().Contains(id) ||
@@ -163,17 +149,17 @@ namespace Project3_Books_CarlosAlves.Controllers
 
             }
 
-            return View(customer);
-         
+            return View(invoice);
+
         }
-        
+
         /// <summary>
         /// HttpGet to Return a Customer to edit or Create
         /// </summary>
         /// <param name="id">[Optional] The Id of the customer to edit</param>
         /// <returns>The Customer Entity or a new Customer Entity</returns>
         [HttpGet]
-        public ActionResult UpsertCustomer(int id = 0)
+        public ActionResult UpsertInvoice(int id = 0)
         {
             BooksEntities context = new BooksEntities();
             // If no customer in the DB, Return a new instance of Customer object
@@ -188,7 +174,7 @@ namespace Project3_Books_CarlosAlves.Controllers
             };
 
 
-         
+
 
 
             return View(viewModel);
@@ -200,7 +186,7 @@ namespace Project3_Books_CarlosAlves.Controllers
         /// <param name="model"> the model used to create the view</param>
         /// <returns> Redirect to the AllCustomers page after the creation or edit.</returns>
         [HttpPost]
-        public ActionResult UpsertCustomer(UpsertCustomerModel model)
+        public ActionResult UpsertInvoice(UpsertCustomerModel model)
         {
             Customer newCustomer = model.Customer;
             BooksEntities context = new BooksEntities();
@@ -268,6 +254,5 @@ namespace Project3_Books_CarlosAlves.Controllers
             }
             return RedirectToAction("AllCustomers");
         }
-    
     }
 }
