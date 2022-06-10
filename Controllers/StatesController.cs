@@ -10,6 +10,14 @@ namespace Project3_Books_CarlosAlves.Controllers
     public class StatesController : Controller
     {
         // GET: States
+        /// <summary>
+        /// Get the All States view with the sorting and searching features
+        /// based on the table columns
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="isDesc"></param>
+        /// <returns>returns the AllStates view</returns>
         public ActionResult AllStates(string id, int sortBy = 0, bool isDesc = false)
         {
             var context = new BooksEntities();
@@ -67,7 +75,11 @@ namespace Project3_Books_CarlosAlves.Controllers
         }
 
 
-
+        /// <summary>
+        /// Http GET request to retrieve the infomation to the upsert state view
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>return stateToSave view</returns>
         [HttpGet]
         public ActionResult UpsertState(string id)
         {
@@ -79,7 +91,11 @@ namespace Project3_Books_CarlosAlves.Controllers
             }
             return View(stateToSave);
         }
-
+        /// <summary>
+        /// Http POST request to update or insert a new State to the table
+        /// </summary>
+        /// <param name="newState"></param>
+        /// <returns>redirects to the All States view</returns>
         [HttpPost]
         public ActionResult UpsertState(State newState)
         {
@@ -114,7 +130,11 @@ namespace Project3_Books_CarlosAlves.Controllers
             return RedirectToAction("AllStates");
         }
 
-
+        /// <summary>
+        /// Http GET delete request. Deletes a row on the state view based on the id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>redirect to All states</returns>
         [HttpGet]
         public ActionResult Delete(string id)
         {

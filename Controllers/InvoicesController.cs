@@ -287,7 +287,11 @@ namespace Project3_Books_CarlosAlves.Controllers
             }
             return RedirectToAction("AllInvoices");
         }
-
+        /// <summary>
+        /// Http Post request to upsert the Invoice Line items
+        /// </summary>
+        /// <param name="lineItem"></param>
+        /// <returns>returns a json</returns>
         [HttpPost]
         public ActionResult UpsertLineItem(InvoiceLineItem lineItem)
         {

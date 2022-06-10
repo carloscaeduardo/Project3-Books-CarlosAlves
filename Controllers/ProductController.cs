@@ -9,6 +9,13 @@ namespace Project3_Books_CarlosAlves.Controllers
 {
     public class ProductController : Controller
     {
+        /// <summary>
+        /// Get the All product view, with features to sort and seach within the table columns
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="isDesc"></param>
+        /// <returns>Return the products view</returns>
         public ActionResult AllProducts(string id, int sortBy = 0, bool isDesc = false)
         {
             var context = new BooksEntities();
@@ -105,7 +112,11 @@ namespace Project3_Books_CarlosAlves.Controllers
         }
 
 
-
+        /// <summary>
+        /// Http Get request to view that updates or adds new product
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>returns the upsert view for product</returns>
         [HttpGet]
         public ActionResult UpsertProduct(string id)
         {
@@ -117,7 +128,11 @@ namespace Project3_Books_CarlosAlves.Controllers
             }
             return View(productToSave);
         }
-
+        /// <summary>
+        /// Http Post request to upsate or add new product to list
+        /// </summary>
+        /// <param name="newProduct"></param>
+        /// <returns>redirects to Allproducts page</returns>
         [HttpPost]
         public ActionResult UpsertProduct(Product newProduct)
         {
@@ -155,7 +170,11 @@ namespace Project3_Books_CarlosAlves.Controllers
             return RedirectToAction("AllProducts");
         }
 
-
+        /// <summary>
+        /// Http Get request to delete a row on the products table
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>redirects to the AllProducts view</returns>
         [HttpGet]
         public ActionResult Delete(string id)
         {
