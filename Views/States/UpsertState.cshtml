@@ -8,8 +8,9 @@
 @using (Html.BeginForm("UpsertState", "States", FormMethod.Post))
 {
     @*@Html.HiddenFor(s => s.StateCode)*@
+    <label>State Code</label>
     @Html.TextBoxFor(s => s.StateCode, new { @class = "form-control", placeholder = "State Code" })
-
+    <label>State Name</label>
     @Html.TextBoxFor(s => s.StateName, new { @class = "form-control", placeholder = "State Name" })
 
 

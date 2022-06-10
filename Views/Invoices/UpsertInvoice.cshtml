@@ -1,0 +1,71 @@
+﻿@model Project3_Books_CarlosAlves.Models.UpsertInvoiceModel
+@{
+    ViewBag.Title = "UpsertInvoice";
+}
+
+<h2>Add or delete Invoice</h2>
+@*This form is only to submit an invoice*@
+@using (Html.BeginForm("UpsertInvoice", "Invoices", FormMethod.Post))
+{
+    @Html.HiddenFor(c => c.Invoice.InvoiceID)
+
+    //@Html.TextBoxFor(c => c.Customer.CustomerID, new { @class = "form-control", placeholder = "Customer Id" })
+    <label>Invoice Date</label>
+    @Html.TextBoxFor(c => c.Invoice.InvoiceDate, new { @class = "form-control", placeholder = "Date" })
+    <label>Product Total</label>
+    <input value="@Model.Invoice.ProductTotal" type="text" disabled="disabled" class="form-control" name="Invoice.ProductTotal" />
+
+    @*@Html.TextBoxFor(c => c.Invoice.ProductTotal, new { @disabled = "disabled" @class = "form-control", placeholder = "Product Total" })*@
+    <label>Sales Tax</label>
+    @Html.TextBoxFor(c => c.Invoice.SalesTax, new { @class = "form-control", placeholder = "Sales tax" })
+    <label>Shipping</label>
+    @Html.TextBoxFor(c => c.Invoice.Shipping, new { @class = "form-control", placeholder = "Shipping" })
+    <label>Total</label>
+    <input value="@Model.Invoice.InvoiceTotal" type="text" disabled="disabled" class="form-control" name="Invoice.InvoiceTotal" />
+    @*@Html.TextBoxFor(c => c.Invoice.InvoiceTotal, new { @class = "form-control disabled", placeholder = "Invoice Total" })*@
+    <label>Customer Info</label>
+    <select name="Invoice.CustomerID" class="form-control">
+        @foreach (var customer in Model.Customers)
+        {
+            <option value="@customer.CustomerID">@customer.CustomerID - @customer.Name </option>
+
+        }
+
+    </select>
+
+
+    <input type="submit" value="Submit" />
+
+    @*<input type="button" class="btn btn-primary" value="Delete" onclick="apiHandler.DELETE(/AllCustomers/Delete/@Model.Id);" />*@
+
+}
+
+<hr />
+<h4>Invoice Line Items Section</h4>
+
+@*This should be visible only if invoice is not a new one*@
+<a href="/InvoiceLineItems/UpsertInvoiceLineItems/?InvoiceId=@Model.Invoice.InvoiceID&productCode=0">Add new</a>
+
+@foreach (var lineItems in Model.Invoice.InvoiceLineItems)
+{
+    <form action="/Invoice/UpsertLineItem" method="POST">
+        <input type="hidden" name="InvoiceID" value="@lineItems.InvoiceID" />
+
+        <div>
+            <div class="row">
+                <div class="col-6">
+                    <span>Product Code</span>
+                </div>
+                <div class="col-6">
+                    <input name="ProductCode" list="products" value="@lineItems.ProductCode" type="text" class="form-control" />
+                </div>
+            </div>
+
+            <a href="/InvoiceLineItems/UpsertInvoiceLineItems/?invoiceId=@lineItems.InvoiceID&productCode=@lineItems.ProductCode">Edit</a>
+        </div>
+
+
+
+    </form>
+
+}

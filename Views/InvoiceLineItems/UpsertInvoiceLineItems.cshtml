@@ -1,0 +1,27 @@
+﻿@model Project3_Books_CarlosAlves.Models.InvoiceLineItem
+@{
+    ViewBag.Title = "UpsertInvoiceLineItems";
+}
+
+<h2>Upsert Invoice Line Items</h2>
+
+@using (Html.BeginForm("UpsertInvoiceLineItems", "InvoiceLineItems", FormMethod.Post))
+{
+    @Html.HiddenFor(c => c.InvoiceID)
+
+    //@Html.TextBoxFor(c => c.Customer.CustomerID, new { @class = "form-control", placeholder = "Customer Id" })
+    <label>Product Code</label>
+    @Html.TextBoxFor(c => c.ProductCode, new { @class = "form-control", placeholder = "Date" })
+    <label>Unit Price</label>
+    @Html.TextBoxFor(c => c.UnitPrice, new { @class = "form-control", placeholder = "Product Total" })
+    <label>Quantity</label>
+    @Html.TextBoxFor(c => c.Quantity, new { @class = "form-control", placeholder = "Sales tax" })
+    
+
+
+
+    <input type="submit" value="Submit" />
+
+    @*<input type="button" class="btn btn-primary" value="Delete" onclick="apiHandler.DELETE(/AllCustomers/Delete/@Model.Id);" />*@
+
+}

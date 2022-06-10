@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity.Migrations;
 
 namespace Project3_Books_CarlosAlves.Controllers
 {
@@ -127,24 +128,31 @@ namespace Project3_Books_CarlosAlves.Controllers
             {
                 id = id.Trim().ToLower();
                 int idLookup;
+                decimal idDecimalLookup;
+                DateTime idDateTimeLookup = DateTime.Today;
 
 
                 if (int.TryParse(id, out idLookup))
                 {
                     invoice = invoice.Where(c =>
-                                                    c.InvoiceID == idLookup
+                                                    c.InvoiceID == idLookup ||
+                                                    c.CustomerID == idLookup
                                                 ).ToList();
                 }
+                else if(decimal.TryParse(id, out idDecimalLookup))
+                {
+                    invoice = (List<Invoice>)invoice.Where(c =>
+                                                    c.ProductTotal == idDecimalLookup ||
+                                                    c.SalesTax == idDecimalLookup ||
+                                                    c.Shipping == idDecimalLookup ||
+                                                    c.InvoiceTotal == idDecimalLookup
 
+                    ).ToList();
+                }
                 else
                 {
                     invoice = invoice.Where(c =>
-                                                c.Name.ToLower().Contains(id) ||
-                                                c.State.ToLower().Contains(id) ||
-                                                c.City.ToLower().Contains(id) ||
-                                                c.Address.ToLower().Contains(id) ||
-                                                c.ZipCode.ToLower().Contains(id)
-                                                        ).ToList();
+                                                c.InvoiceDate == idDateTimeLookup).ToList();
                 }
 
             }
@@ -163,14 +171,18 @@ namespace Project3_Books_CarlosAlves.Controllers
         {
             BooksEntities context = new BooksEntities();
             // If no customer in the DB, Return a new instance of Customer object
-            Customer customer = context.Customers.Where(c => c.CustomerID == id).FirstOrDefault() ?? new Customer();
-            List<State> states = context.States.ToList();
-            List<Invoice> invoices = context.Invoices.ToList();
-            UpsertCustomerModel viewModel = new UpsertCustomerModel()
+            Invoice invoice = context.Invoices.Where(c => c.InvoiceID == id).FirstOrDefault() ?? new Invoice();
+            List<Customer> customers = context.Customers.ToList();
+            List<InvoiceLineItem> invoiceLineItems = context.InvoiceLineItems.ToList();
+            List<Product> products = context.Products.ToList();
+            UpsertInvoiceModel viewModel = new UpsertInvoiceModel()
             {
-                Customer = customer,
-                States = states,
-                Invoices = invoices
+               
+         
+                Invoice = invoice,
+                Customers = customers,
+                InvoiceLineItems = invoiceLineItems,
+                Products = products
             };
 
 
@@ -186,28 +198,33 @@ namespace Project3_Books_CarlosAlves.Controllers
         /// <param name="model"> the model used to create the view</param>
         /// <returns> Redirect to the AllCustomers page after the creation or edit.</returns>
         [HttpPost]
-        public ActionResult UpsertInvoice(UpsertCustomerModel model)
+        public ActionResult UpsertInvoice(UpsertInvoiceModel model, string customerId)
         {
-            Customer newCustomer = model.Customer;
+
+            Invoice newInvoice = model.Invoice;
             BooksEntities context = new BooksEntities();
 
             try
             {
-                if (context.Customers.Where(c => c.CustomerID == newCustomer.CustomerID).Count() > 0)
+                if (context.Invoices.Where(c => c.InvoiceID == newInvoice.InvoiceID).Count() > 0)
                 {
-                    var customerToSave = context.Customers.Where(c => c.CustomerID == newCustomer.CustomerID).FirstOrDefault();
+                    var invoiceToSave = context.Invoices.Where(c => c.InvoiceID == newInvoice.InvoiceID).FirstOrDefault();
 
-                    customerToSave.Name = newCustomer.Name;
-                    customerToSave.Address = newCustomer.Address;
-                    customerToSave.City = newCustomer.City;
-                    customerToSave.State = newCustomer.State;
-                    customerToSave.ZipCode = newCustomer.ZipCode;
-                    customerToSave.deleted = newCustomer.deleted;
+
+
+                    invoiceToSave.CustomerID = newInvoice.CustomerID;
+                    invoiceToSave.InvoiceDate = newInvoice.InvoiceDate;
+                    invoiceToSave.ProductTotal = newInvoice.ProductTotal;
+                    invoiceToSave.SalesTax = newInvoice.SalesTax;
+                    invoiceToSave.Shipping = newInvoice.Shipping;
+                    invoiceToSave.InvoiceTotal = CalculateInvoiceTotals(invoiceToSave).InvoiceTotal;
 
                 }
                 else
                 {
-                    context.Customers.Add(newCustomer);
+                    newInvoice.InvoiceTotal = CalculateInvoiceTotals(newInvoice).InvoiceTotal;
+
+                    context.Invoices.Add(newInvoice);
                 }
                 context.SaveChanges();
 
@@ -221,7 +238,23 @@ namespace Project3_Books_CarlosAlves.Controllers
                 // log the exception in the error log, and send an automatic email to IT Support
                 //return RedirectToAction("Error");
             }
-            return RedirectToAction("AllCustomers");
+            return RedirectToAction("AllInvoices");
+        }
+
+        public Invoice CalculateInvoiceTotals(Invoice invoice)
+        {
+            BooksEntities context = new BooksEntities();
+
+            List<InvoiceLineItem> lineItems = context.InvoiceLineItems.Where(i => i.InvoiceID == invoice.InvoiceID).ToList();
+
+            invoice.InvoiceTotal = 0;
+            foreach (var lineItem in lineItems)
+            {
+                invoice.ProductTotal += lineItem.ItemTotal;
+            }
+            invoice.InvoiceTotal = invoice.ProductTotal + invoice.Shipping + invoice.SalesTax;
+            
+            return invoice;
         }
 
         /// <summary>
@@ -233,13 +266,13 @@ namespace Project3_Books_CarlosAlves.Controllers
         public ActionResult Delete(string id)
         {
             BooksEntities context = new BooksEntities();
-            int customerId = 0;
-            if (int.TryParse(id, out customerId))
+            int invoiceId = 0;
+            if (int.TryParse(id, out invoiceId))
             {
                 try
                 {
-                    Customer customer = context.Customers.Where(c => c.CustomerID == customerId).FirstOrDefault();
-                    context.Customers.Remove(customer);
+                    Invoice invoice = context.Invoices.Where(c => c.InvoiceID == invoiceId).FirstOrDefault();
+                    context.Invoices.Remove(invoice);
 
                     context.SaveChanges();
                 }
@@ -252,7 +285,17 @@ namespace Project3_Books_CarlosAlves.Controllers
             {
                 //parse   
             }
-            return RedirectToAction("AllCustomers");
+            return RedirectToAction("AllInvoices");
+        }
+
+        [HttpPost]
+        public ActionResult UpsertLineItem(InvoiceLineItem lineItem)
+        {
+            BooksEntities context = new BooksEntities();
+            var invoicelineItem = context.InvoiceLineItems.Where(i => i.ProductCode == lineItem.ProductCode && i.InvoiceID == lineItem.InvoiceID).FirstOrDefault();
+
+            //context.InvoiceLineItems.AddOrUpdate(InvoiceLineItem);
+            return Json("yes");
         }
     }
 }

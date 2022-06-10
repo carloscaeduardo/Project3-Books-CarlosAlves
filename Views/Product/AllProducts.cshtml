@@ -1,0 +1,53 @@
+﻿@model  List<Project3_Books_CarlosAlves.Models.Product>
+@{
+    ViewBag.Title = "AllProducts";
+}
+
+<h2>All Products</h2>
+
+<button class="btn btn-primary">
+    <a class="color-light text-decoration-none text-light" href="/Product/UpsertProduct/">Add New Product</a>
+</button>
+
+<div class="row">
+    <div class="col-md-6">
+        <input id="txtSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-6">
+        <input onclick="Sortable.Search();" type="button" class="btn btn-info" value="Search" />
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0);">Product Code</th>
+            <th onclick="Sortable.Sort(1);">Product Description</th>
+            <th onclick="Sortable.Sort(2);"> UnitPrice</th>
+            <th onclick="Sortable.Sort(3);">On Hand Quantity</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var product in Model)
+        {
+        <tr>
+            <td>@product.ProductCode</td>
+            <td>@product.Description</td>
+            <td>@product.UnitPrice</td>
+            <td>@product.OnHandQuantity</td>
+
+            <td>
+                <button class="btn btn-primary"><a class="text-decoration-none text-light" href="/Product/UpsertProduct/?id=@product.ProductCode">Edit</a></button>
+                <button class="btn btn-danger"><a href="/Product/Delete/@product.ProductCode" class="text-decoration-none text-light">DELETE</a></button>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = '/Product/AllProducts/';
+</script>

@@ -1,0 +1,23 @@
+﻿@model Project3_Books_CarlosAlves.Models.Product
+@{
+    ViewBag.Title = "UpsertProduct";
+}
+
+<h2>Add or Update Products</h2>
+
+@using (Html.BeginForm("UpsertProduct", "Product", FormMethod.Post))
+{
+    @*@Html.HiddenFor(s => s.StateCode)*@
+    <label>Product Code</label>
+    @Html.TextBoxFor(s => s.ProductCode, new { @class = "form-control", placeholder = "Product Code" })
+    <label>Description</label>
+    @Html.TextBoxFor(s => s.Description, new { @class = "form-control", placeholder = "Description" })
+
+
+    <input type="submit" value="Submit" />
+
+    @*<input type="button" class="btn btn-primary" value="Delete" onclick="apiHandler.DELETE(/AllCustomers/Delete/@Model.Id);" />*@
+
+
+
+}

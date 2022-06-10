@@ -1,0 +1,63 @@
+﻿@model  List<Project3_Books_CarlosAlves.Models.Invoice>
+@{
+    ViewBag.Title = "AllInvoices";
+}
+
+<h2>All Invoices</h2>
+
+<button class="btn btn-primary">
+<a class="color-light text-decoration-none text-light" href="/Invoices/UpsertInvoice/0">Add New Invoice</a>
+</button>
+
+<div class="row">
+    <div class="col-md-6">
+        <input id="txtSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-6">
+        <input onclick="Sortable.Search();" type="button" class="btn btn-info" value="Search" />
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0);">Invoice Id</th>
+            <th onclick="Sortable.Sort(1);">Customer Name</th>
+            <th onclick="Sortable.Sort(1);">Invoice Date</th>
+            <th onclick="Sortable.Sort(1);">Product Total</th>
+            <th onclick="Sortable.Sort(1);">Sales Tax</th>
+            <th onclick="Sortable.Sort(1);">Shipping</th>
+            <th onclick="Sortable.Sort(1);">Invoice Total</th>
+
+
+
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var invoice in Model)
+        {
+        <tr>
+            <td>@invoice.InvoiceID </td>
+            <td>@invoice.CustomerID</td>
+            <td>@invoice.InvoiceDate</td>
+            <td>@invoice.ProductTotal</td>
+            <td>@invoice.SalesTax</td>
+            <td>@invoice.Shipping</td>
+            <td>@invoice.InvoiceTotal</td>
+
+
+            <td>
+                <button class="btn btn-primary"><a class="text-decoration-none text-light" href="/Invoices/UpsertInvoice/?id=@invoice.InvoiceID">Edit</a></button>
+                <button class="btn btn-danger"><a href="/Invoices/Delete/@invoice.InvoiceID" class="text-decoration-none text-light">DELETE</a></button>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = '/Invoices/AllInvoices/';
+</script>

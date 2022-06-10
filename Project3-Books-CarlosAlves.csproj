@@ -128,7 +128,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoiceLineItemsController.cs" />
     <Compile Include="Controllers\InvoicesController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\StatesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -166,10 +168,8 @@
     <Compile Include="Models\State.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagram.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\UpsertCustomerModel.cs" />
+    <Compile Include="Models\UpsertInvoiceModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -271,10 +271,13 @@
     <Content Include="Views\States\UpsertState.cshtml" />
     <Content Include="Views\Customer\AllCustomers.cshtml" />
     <Content Include="Views\Customer\UpsertCustomer.cshtml" />
+    <Content Include="Views\Invoices\AllInvoices.cshtml" />
+    <Content Include="Views\Invoices\UpsertInvoice.cshtml" />
+    <Content Include="Views\Product\AllProducts.cshtml" />
+    <Content Include="Views\Product\UpsertProduct.cshtml" />
+    <Content Include="Views\InvoiceLineItems\UpsertInvoiceLineItems.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Invoices\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />

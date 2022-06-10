@@ -30,7 +30,6 @@ namespace Project3_Books_CarlosAlves.Models
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<State> States { get; set; }
-        public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<OrderOption> OrderOptions { get; set; }
     }
 }

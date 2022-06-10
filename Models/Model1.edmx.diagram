@@ -10,8 +10,7 @@
         <EntityTypeShape EntityType="BooksModel.Invoice" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="BooksModel.Product" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BooksModel.State" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BooksModel.sysdiagram" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BooksModel.OrderOption" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BooksModel.OrderOption" Width="2.75" PointX="0.75" PointY="5.25" IsExpanded="true" />
         <AssociationConnector Association="BooksModel.FK_Customers_States" ManuallyRouted="false" />
         <AssociationConnector Association="BooksModel.FK_Invoices_Customers" ManuallyRouted="false" />
         <AssociationConnector Association="BooksModel.FK_InvoiceLineItems_Invoices" ManuallyRouted="false" />
